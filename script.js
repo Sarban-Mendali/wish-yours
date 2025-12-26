@@ -1,15 +1,131 @@
+// Theme Management
+function initTheme() {
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  updateThemeButton(savedTheme);
+}
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  updateThemeButton(newTheme);
+}
+
+function updateThemeButton(theme) {
+  const icon = document.getElementById('theme-icon');
+  const label = document.getElementById('theme-label');
+  const menuText = document.getElementById('menu-theme-text');
+  
+  if (theme === 'dark') {
+    icon.textContent = '☀️';
+    label.textContent = 'Light';
+    menuText.textContent = '☀️ Light Mode';
+  } else {
+    icon.textContent = '🌙';
+    label.textContent = 'Dark';
+    menuText.textContent = '🌙 Dark Mode';
+  }
+}
+
+// Menu Toggle
+function toggleMenu() {
+  const menu = document.getElementById('dropdown-menu');
+  menu.classList.toggle('active');
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', function(event) {
+  const menu = document.getElementById('dropdown-menu');
+  const menuBtn = document.querySelector('.menu-btn');
+  
+  if (!menu.contains(event.target) && !menuBtn.contains(event.target)) {
+    menu.classList.remove('active');
+  }
+});
+
+// About Modal
+function showAbout() {
+  document.getElementById('about-modal').classList.add('active');
+}
+
+function closeAbout() {
+  document.getElementById('about-modal').classList.remove('active');
+}
+
+// Share Website
+function shareWebsite() {
+  const url = window.location.origin + window.location.pathname;
+  
+  if (navigator.share) {
+    navigator.share({
+      title: 'Message Generator',
+      text: 'Create beautiful personalized messages for any occasion!',
+      url: url
+    }).catch(() => {
+      copyToClipboard(url);
+    });
+  } else {
+    copyToClipboard(url);
+  }
+}
+
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    alert('Website link copied to clipboard!');
+  });
+}
+
 // Load URL parameters on page load
 window.addEventListener('DOMContentLoaded', function() {
+  initTheme();
+  
   const urlParams = new URLSearchParams(window.location.search);
   const type = urlParams.get('type');
   const msg = urlParams.get('msg');
 
   if (type && msg) {
-    switchTab(type);
-    document.getElementById('generated-message').textContent = decodeURIComponent(msg);
-    document.getElementById('message-display').style.display = 'block';
+    showMessageView(type, decodeURIComponent(msg));
   }
 });
+
+// Show message view for recipients
+function showMessageView(type, message) {
+  document.getElementById('main-app').style.display = 'none';
+  document.getElementById('message-view').style.display = 'block';
+  document.getElementById('received-message').textContent = message;
+  
+  // Set celebration emoji based on type
+  const emojiMap = {
+    'birthday': '🎂',
+    'anniversary': '💕',
+    'achievement': '🏆'
+  };
+  document.getElementById('celebration-emoji').textContent = emojiMap[type] || '🎉';
+  
+  // Set title based on type
+  const titleMap = {
+    'birthday': 'Happy Birthday! 🎉',
+    'anniversary': 'Happy Anniversary! 💑',
+    'achievement': 'Congratulations! 🎊'
+  };
+  document.getElementById('message-title').textContent = titleMap[type] || 'You\'ve Received a Message!';
+}
+
+// Go to home page
+function goHome() {
+  // Clear URL parameters
+  window.history.pushState({}, document.title, window.location.pathname);
+  
+  // Show main app, hide message view
+  document.getElementById('main-app').style.display = 'block';
+  document.getElementById('message-view').style.display = 'none';
+  
+  // Reset form
+  document.getElementById('message-display').style.display = 'none';
+}
 
 // Tab switching
 const tabButtons = document.querySelectorAll('.tab-btn');
