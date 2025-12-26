@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Message Generator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>Message Generator</h1>
+
+      <!-- Tab Navigation -->
+      <div class="tab-nav">
+        <button class="tab-btn active" data-tab="birthday">
+          <span class="icon">🎁</span>
+          <span>Birthday</span>
+        </button>
+        <button class="tab-btn" data-tab="anniversary">
+          <span class="icon">❤️</span>
+          <span>Anniversary</span>
+        </button>
+        <button class="tab-btn" data-tab="achievement">
+          <span class="icon">🏆</span>
+          <span>Achievement</span>
+        </button>
+      </div>
+
+      <!-- Birthday Form -->
+      <div class="form-container active" id="birthday-form">
+        <input type="text" id="birthday-name" class="input-field" placeholder="Name">
+        <input type="text" id="birthday-age" class="input-field" placeholder="Age (optional)">
+        <button class="generate-btn" onclick="generateBirthdayMessage()">
+          Generate Birthday Message
+        </button>
+      </div>
+
+      <!-- Anniversary Form -->
+      <div class="form-container" id="anniversary-form">
+        <input type="text" id="anniversary-name" class="input-field" placeholder="Name">
+        <input type="text" id="anniversary-years" class="input-field" placeholder="Years (optional)">
+        <button class="generate-btn" onclick="generateAnniversaryMessage()">
+          Generate Anniversary Message
+        </button>
+      </div>
+
+      <!-- Achievement Form -->
+      <div class="form-container" id="achievement-form">
+        <input type="text" id="achievement-name" class="input-field" placeholder="Name">
+        <input type="text" id="achievement-text" class="input-field" placeholder="Achievement (e.g., graduation, promotion)">
+        <button class="generate-btn" onclick="generateAchievementMessage()">
+          Generate Achievement Message
+        </button>
+      </div>
+
+      <!-- Message Display -->
+      <div class="message-display" id="message-display" style="display: none;">
+        <div class="message-box">
+          <p id="generated-message"></p>
+        </div>
+        <button class="share-btn" onclick="copyShareableLink()">
+          <span id="share-text">🔗 Copy Shareable Link</span>
+          <span id="copied-text" style="display: none;">✓ Link Copied!</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+
