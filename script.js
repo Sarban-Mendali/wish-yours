@@ -205,7 +205,12 @@ function generateAchievementMessage() {
     `Incredible work, ${name}! 🏆 Your accomplishment in ${achievement} is inspiring. This is just the beginning of your amazing journey!`
   ];
 
-  displayMessage(messages[Math.floor(Math.random() * messages.length)], 'achievement');
+  // Pick a random message from the array
+  const randomIndex = Math.floor(Math.random() * messages.length);
+  const selectedMessage = messages[randomIndex];
+
+  // Display the selected message
+  displayMessage(selectedMessage, 'achievement');
 }
 
 // Display generated message
